@@ -40,10 +40,10 @@ double y_trans = 0;
 //以下追加した変数
 int start_time = 0;//タイマー開始判定
 int run_time = 0;//タイマー動作の判定
-int stop_time = 0;//タイマー
-double start, end;
-double total = 0.0, set = 10.0;
-char message[] = "時間です！";
+int stop_time = 0;//タイマーストップの判定
+double start, end;//開始時間とサイクルごとの時間の記録
+double total = 0.0, set = 10.0;//経過時間と制限時間
+char message[] = "時間です！";//コマンドプロンプトに投げるメッセージ
 
 
 // プロトタイプ宣言
@@ -156,14 +156,14 @@ void MainLoop(void)
 	// バッファの内容を画面に表示
 	argSwapBuffers();
 
-	if (start_time == 1) {
+	if (start_time == 1) {//タイマースタートの処理
 		start = clock() / CLOCKS_PER_SEC;
 		start_time = 0;
 		run_time = 1;
 		printf("test");
 	}
 
-	if (run_time == 1) {
+	if (run_time == 1) {//制限時間超過の処理　
 		end = clock() / CLOCKS_PER_SEC;
 		total = end - start;
 		if (total > set) {
@@ -172,7 +172,7 @@ void MainLoop(void)
 			set = 10.0;
 		}
 	}
-	if (stop_time == 1 && run_time==1) {
+	if (stop_time == 1 && run_time==1) {//タイマーストップの処理
 		printf("%.0f秒です。\n", (double)(end - start));
 		stop_time = 0;
 		run_time = 0;
@@ -238,17 +238,17 @@ void KeyEvent(unsigned char key, int x, int y)
 	else if (key == 'd' || key == 'D') {
 		x_trans += 10;
 	}
-	else if (key == 'c' || key == 'C') {
+	else if (key == 'c' || key == 'C') {//タイマーストップ処理
 		if (run_time == 1) {
 			stop_time = 1;
 		}
 	}
-	else if (key == 'v' || key == 'V') {
+	else if (key == 'v' || key == 'V') {//タイマースタート処理
 		if (run_time == 0) {
 			start_time = 1;
 		}
 	}
-	else if (key == 'm' || key == 'M') {
+	else if (key == 'm' || key == 'M') {//制限時間の延長
 		set += 5.0;
 	}
 }
