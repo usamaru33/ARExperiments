@@ -13,7 +13,7 @@
 
 const char* vconf_name = "E:/ARToolKit/bin/Data/WDM_camera_flipV.xml";
 const char* cparam_name = "E:/ARToolKit/bin/Data/camera_para.dat";
-const char* patt_name[] = { "E:/ARToolKit/bin/Data/patt.hiro" ,"E:/ARToolKit/bin/Data/patt.kanji" };//hiro=startマーカ、kanji=endマーカ
+const char* patt_name[] = { "E:/ARToolKit/bin/Data/patt.hiro"  };//hiro=startマーカ
 const char* mqo_name[] = { "E:/ARToolKit/bin/Data/ninja.mqo", "E:/ARToolKit/bin/Data/camera.mqo", "E:/ARToolKit/bin/Data/car.mqo" };
 int		patt_id[2];
 double	patt_trans[3][4];
@@ -25,11 +25,10 @@ int     game_started = 0; // ゲーム状態変数：1 ゲーム開始を表示
 MQO_MODEL	model;
 
 void MainLoop(void);
-void DrawObject(int markerIndex);
+void DrawObject(void);
 void MouseEvent(int button, int state, int x, int y);
 void KeyEvent(unsigned char key, int x, int y);
 void Cleanup(void);
-void mySetLight(void);
 
 int main(int argc, char** argv)
 {
@@ -40,27 +39,23 @@ int main(int argc, char** argv)
 	glutInit(&argc, argv);
 
 	if (arVideoOpen(const_cast<char*>(vconf_name)) < 0) {
-		printf("无法打开视频流\n");//ビデオストリームが開きない
+		printf("ビデオストリームを開けません\n");//ビデオストリームが開きない
 		return -1;
 	}
 
 	if (arVideoInqSize(&xsize, &ysize) < 0) {
-		printf("无法获取视频尺寸\n");//ビデオのサイズが取られない
+		printf("ビデオサイズを取得できません\n");//ビデオのサイズが取られない
 		return -1;
 	}
 	if (arParamLoad(cparam_name, 1, &wparam) < 0) {
-		printf("无法加载相机参数文件\n");//カメラパラメーターファイルをロードできない
+		printf("カメラパラメータファイルを読み込めません\n");//カメラパラメーターファイルをロードできない
 		return -1;
 	}
 	arParamChangeSize(&wparam, xsize, ysize, &cparam);
 	arInitCparam(&cparam);
 
 	if ((patt_id[0] = arLoadPatt(patt_name[0])) < 0) {
-		printf("无法加载HIRO标志\n");//hiro(start)マーカをロードできない
-		return -1;
-	}
-	if ((patt_id[1] = arLoadPatt(patt_name[1])) < 0) {
-		printf("无法加载KANJI标志\n");//kanji(end)マーカをロードできない
+		printf("HIROマーカーを読み込めません\n");//hiro(start)マーカをロードできない
 		return -1;
 	}
 
@@ -78,7 +73,8 @@ void MainLoop(void)
 	ARUint8* image;
 	ARMarkerInfo* marker_info;
 	int marker_num;
-	int hiro_index = -1, kanji_index = -1;
+	int hiro_index = -1;
+	bool checkp_index[3] = { false,false,false};
 
 	// 获取摄像头图像
 	if ((image = arVideoGetImage()) == NULL) {
@@ -96,36 +92,29 @@ void MainLoop(void)
 		exit(0);
 	}
 
-	// hiroとkanjiのマーカを見つけました
+	// hiroのマーカを見つけました
 	for (int i = 0; i < marker_num; i++) {
 		if (marker_info[i].id == patt_id[0]) {
 			if (hiro_index == -1 || marker_info[hiro_index].cf < marker_info[i].cf) {
 				hiro_index = i;
 			}
 		}
-		else if (marker_info[i].id == patt_id[1]) {
-			if (kanji_index == -1 || marker_info[kanji_index].cf < marker_info[i].cf) {
-				kanji_index = i;
-			}
-		}
 	}
-
 	// 更新摄像头图像
 	arVideoCapNext();
 
 	// 游戏逻辑
-	if (hiro_index != -1 && kanji_index == -1) {
+	if (hiro_index != -1 ) {
 		//hiroマーカだけが検出されました
 		if (!game_started) {
 			game_started = 1;
-			printf("游戏开始！\n");//ゲームスタート
+			printf("ゲーム開始！\n");//ゲームスタート
 		}
 	}
-	else if (kanji_index != -1 && hiro_index == -1) {
-		// kanjiマーカだけが検出されました
+	else if (hiro_index == -1 && checkp_index[0] == true && checkp_index[1] == true && checkp_index[2] == true) {//hiroマーカー認識できない、同時全てのチェックポイントを通過しました
 		if (game_started) {
 			game_started = 0;
-			printf("游戏结束！\n");//ゲームエンド
+			printf("ゲーム終了\n");//ゲームエンド
 		}
 	}
 
@@ -151,7 +140,7 @@ void DrawObject(void)
 
 void MouseEvent(int button, int state, int x, int y)
 {
-	printf("鼠标事件: 按钮:%d 状态:%d 坐标:(x,y)=(%d,%d)\n", button, state, x, y);
+	printf("マウスイベント: ボタン:%d 状態:%d 座標:(x,y)=(%d,%d)\n", button, state, x, y);
 }
 
 void KeyEvent(unsigned char key, int x, int y)
