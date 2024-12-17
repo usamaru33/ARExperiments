@@ -1,5 +1,5 @@
-/*---------------------------------------------------------------------------
-	ƒ}[ƒJuHirov‚ğ”F¯‚µ‚ÄƒƒCƒ„ƒtƒŒ[ƒ€‚Ì—§•û‘Ì‚ğ•\¦‚³‚¹‚éƒvƒƒOƒ‰ƒ€
+ï»¿/*---------------------------------------------------------------------------
+	ãƒãƒ¼ã‚«ã€ŒHiroã€ã‚’èªè­˜ã—ã¦ãƒ¯ã‚¤ãƒ¤ãƒ•ãƒ¬ãƒ¼ãƒ ã®ç«‹æ–¹ä½“ã‚’è¡¨ç¤ºã•ã›ã‚‹ãƒ—ãƒ­ã‚°ãƒ©ãƒ 
 ---------------------------------------------------------------------------*/
 
 #include <windows.h>
@@ -22,30 +22,31 @@
 
 
 /*
-//ˆÈ‰º‚Ì3‚Â‚Ì•Ï”‚ÍCŠeX‚ªARToolKitƒfƒBƒeƒNƒgƒŠ‚ğ’u‚¢‚½êŠ‚É‡‚í‚¹‚Äƒtƒ@ƒCƒ‹ƒpƒX‚ğ“KØ‚É‘‚«Š·‚¦‚é‚±‚Æ
+//ä»¥ä¸‹ã®3ã¤ã®å¤‰æ•°ã¯ï¼Œå„ã€…ãŒARToolKitãƒ‡ã‚£ãƒ†ã‚¯ãƒˆãƒªã‚’ç½®ã„ãŸå ´æ‰€ã«åˆã‚ã›ã¦ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã‚’é©åˆ‡ã«æ›¸ãæ›ãˆã‚‹ã“ã¨
 */
-// ƒOƒ[ƒoƒ‹•Ï”
-const char* vconf_name = "C:/ARToolKit/bin/Data/WDM_camera_flipV.xml";	// ƒrƒfƒIƒfƒoƒCƒX‚Ìİ’èƒtƒ@ƒCƒ‹
-const char* cparam_name = "C:/ARToolKit/bin/Data/camera_para.dat";		// ƒJƒƒ‰ƒpƒ‰ƒ[ƒ^ƒtƒ@ƒCƒ‹
-const char* patt_name = "C:/ARToolKit/bin/Data/patt.hiro";				// ƒpƒ^[ƒ“ƒtƒ@ƒCƒ‹
+// ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°
+const char* vconf_name = "C:/ARToolKit/bin/Data/WDM_camera_flipV.xml";	// ãƒ“ãƒ‡ã‚ªãƒ‡ãƒã‚¤ã‚¹ã®è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«
+const char* cparam_name = "C:/ARToolKit/bin/Data/camera_para.dat";		// ã‚«ãƒ¡ãƒ©ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãƒ•ã‚¡ã‚¤ãƒ«
+const char* patt_name = "C:/ARToolKit/bin/Data/patt.hiro";				// ãƒ‘ã‚¿ãƒ¼ãƒ³ãƒ•ã‚¡ã‚¤ãƒ«
 
 
-int		patt_id;						// ƒpƒ^[ƒ“‚ÌID
-double	patt_trans[3][4];				// À•W•ÏŠ·s—ñ
-double	patt_center[2] = { 0.0, 0.0 };	// ƒpƒ^[ƒ“‚Ì’†SÀ•W
-double	patt_width = 80.0;			// ƒpƒ^[ƒ“‚ÌƒTƒCƒYi’PˆÊFmmj
-int		thresh = 100;			// 2’l‰»‚Ìè‡’l
+int		patt_id;						// ãƒ‘ã‚¿ãƒ¼ãƒ³ã®ID
+double	patt_trans[3][4];				// åº§æ¨™å¤‰æ›è¡Œåˆ—
+double	patt_center[2] = { 0.0, 0.0 };	// ãƒ‘ã‚¿ãƒ¼ãƒ³ã®ä¸­å¿ƒåº§æ¨™
+double	patt_width = 80.0;			// ãƒ‘ã‚¿ãƒ¼ãƒ³ã®ã‚µã‚¤ã‚ºï¼ˆå˜ä½ï¼šmmï¼‰
+int		thresh = 100;			// 2å€¤åŒ–ã®é–¾å€¤
 double x_trans = 0;
 double y_trans = 0;
-int start_time = 0;
-int run_time = 0;
-int stop_time = 0;
+//ä»¥ä¸‹è¿½åŠ ã—ãŸå¤‰æ•°
+int start_time = 0;//ã‚¿ã‚¤ãƒãƒ¼é–‹å§‹åˆ¤å®š
+int run_time = 0;//ã‚¿ã‚¤ãƒãƒ¼å‹•ä½œã®åˆ¤å®š
+int stop_time = 0;//ã‚¿ã‚¤ãƒãƒ¼
 double start, end;
 double total = 0.0, set = 10.0;
-char message[] = "ŠÔ‚Å‚·I";
+char message[] = "æ™‚é–“ã§ã™ï¼";
 
 
-// ƒvƒƒgƒ^ƒCƒvéŒ¾
+// ãƒ—ãƒ­ãƒˆã‚¿ã‚¤ãƒ—å®£è¨€
 void MainLoop(void);
 void DrawObject(void);
 void MouseEvent(int button, int state, int x, int y);
@@ -54,50 +55,50 @@ void Cleanup(void);
 
 
 //===========================================================================
-// mainŠÖ”
+// mainé–¢æ•°
 //===========================================================================
 int main(int argc, char** argv)
 {
-	ARParam	cparam;			// ƒJƒƒ‰ƒpƒ‰ƒ[ƒ^
-	ARParam	wparam;			// ƒJƒƒ‰ƒpƒ‰ƒ[ƒ^iì‹Æ—p•Ï”j
-	int		xsize, ysize;	// ‰æ‘œƒTƒCƒY
+	ARParam	cparam;			// ã‚«ãƒ¡ãƒ©ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
+	ARParam	wparam;			// ã‚«ãƒ¡ãƒ©ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ï¼ˆä½œæ¥­ç”¨å¤‰æ•°ï¼‰
+	int		xsize, ysize;	// ç”»åƒã‚µã‚¤ã‚º
 
-	// GLUT‚Ì‰Šú‰»
+	// GLUTã®åˆæœŸåŒ–
 	glutInit(&argc, argv);
 
-	// ƒrƒfƒIƒfƒoƒCƒX‚Ìİ’è
+	// ãƒ“ãƒ‡ã‚ªãƒ‡ãƒã‚¤ã‚¹ã®è¨­å®š
 	if (arVideoOpen(const_cast<char *>(vconf_name)) < 0) {
-		printf("ƒrƒfƒIƒfƒoƒCƒX‚ÌƒGƒ‰[");
+		printf("ãƒ“ãƒ‡ã‚ªãƒ‡ãƒã‚¤ã‚¹ã®ã‚¨ãƒ©ãƒ¼");
 		return -1;
 	}
 
-	// ƒJƒƒ‰ƒpƒ‰ƒ[ƒ^‚Ìİ’è
+	// ã‚«ãƒ¡ãƒ©ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®è¨­å®š
 	if (arVideoInqSize(&xsize, &ysize) < 0) {
-		printf("‰æ‘œƒTƒCƒY‚ğæ“¾‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½\n");
+		printf("ç”»åƒã‚µã‚¤ã‚ºã‚’å–å¾—ã§ãã¾ã›ã‚“ã§ã—ãŸ\n");
 		return -1;
 	}
 	if (arParamLoad(cparam_name, 1, &wparam) < 0) {
-		printf("ƒJƒƒ‰ƒpƒ‰ƒ[ƒ^‚Ì“Ç‚İ‚İ‚É¸”s‚µ‚Ü‚µ‚½\n");
+		printf("ã‚«ãƒ¡ãƒ©ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®èª­ã¿è¾¼ã¿ã«å¤±æ•—ã—ã¾ã—ãŸ\n");
 		return -1;
 	}
 	arParamChangeSize(&wparam, xsize, ysize, &cparam);
 	arInitCparam(&cparam);
 
-	// ƒpƒ^[ƒ“ƒtƒ@ƒCƒ‹‚Ìƒ[ƒh
+	// ãƒ‘ã‚¿ãƒ¼ãƒ³ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ­ãƒ¼ãƒ‰
 	if ((patt_id = arLoadPatt(patt_name)) < 0) {
-		printf("ƒpƒ^[ƒ“ƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‚İ‚É¸”s‚µ‚Ü‚µ‚½\n");
+		printf("ãƒ‘ã‚¿ãƒ¼ãƒ³ãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿è¾¼ã¿ã«å¤±æ•—ã—ã¾ã—ãŸ\n");
 		return -1;
 	}
 
 
 
-	// ƒEƒBƒ“ƒhƒE‚Ìİ’è
+	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®è¨­å®š
 	argInit(&cparam, 1.0, 0, 0, 0, 0);
 
-	// ƒrƒfƒIƒLƒƒƒvƒ`ƒƒ‚ÌŠJn
+	// ãƒ“ãƒ‡ã‚ªã‚­ãƒ£ãƒ—ãƒãƒ£ã®é–‹å§‹
 	arVideoCapStart();
 
-	// ƒƒCƒ“ƒ‹[ƒv‚ÌŠJn
+	// ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒ—ã®é–‹å§‹
 	argMainLoop(MouseEvent, KeyEvent, MainLoop);
 
 
@@ -107,7 +108,7 @@ int main(int argc, char** argv)
 
 
 //===========================================================================
-// ƒƒCƒ“ƒ‹[ƒvŠÖ”
+// ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒ—é–¢æ•°
 //===========================================================================
 void MainLoop(void)
 {
@@ -116,26 +117,26 @@ void MainLoop(void)
 	int				marker_num;
 	int				j, k;
 
-	// ƒJƒƒ‰‰æ‘œ‚Ìæ“¾
+	// ã‚«ãƒ¡ãƒ©ç”»åƒã®å–å¾—
 	if ((image = arVideoGetImage()) == NULL) {
 		arUtilSleep(2);
 		return;
 	}
 
-	// ƒJƒƒ‰‰æ‘œ‚Ì•`‰æ
+	// ã‚«ãƒ¡ãƒ©ç”»åƒã®æç”»
 	argDrawMode2D();
 	argDispImage(image, 0, 0);
 
-	// ƒ}[ƒJ‚ÌŒŸo‚Æ”F¯
+	// ãƒãƒ¼ã‚«ã®æ¤œå‡ºã¨èªè­˜
 	if (arDetectMarker(image, thresh, &marker_info, &marker_num) < 0) {
 		Cleanup();
 		exit(0);
 	}
 
-	// Ÿ‚Ì‰æ‘œ‚ÌƒLƒƒƒvƒ`ƒƒw¦
+	// æ¬¡ã®ç”»åƒã®ã‚­ãƒ£ãƒ—ãƒãƒ£æŒ‡ç¤º
 	arVideoCapNext();
 
-	// ƒ}[ƒJ‚ÌM—Š“x‚Ì”äŠr
+	// ãƒãƒ¼ã‚«ã®ä¿¡é ¼åº¦ã®æ¯”è¼ƒ
 	k = -1;
 	for (j = 0; j < marker_num; j++) {
 		if (patt_id == marker_info[j].id) {
@@ -145,14 +146,14 @@ void MainLoop(void)
 	}
 
 	if (k != -1) {
-		// ƒ}[ƒJ‚ÌˆÊ’uEp¨iÀ•W•ÏŠ·s—ñj‚ÌŒvZ
+		// ãƒãƒ¼ã‚«ã®ä½ç½®ãƒ»å§¿å‹¢ï¼ˆåº§æ¨™å¤‰æ›è¡Œåˆ—ï¼‰ã®è¨ˆç®—
 		arGetTransMat(&marker_info[k], patt_center, patt_width, patt_trans);
 
-		// 3DƒIƒuƒWƒFƒNƒg‚Ì•`‰æ
+		// 3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æç”»
 		DrawObject();
 	}
 
-	// ƒoƒbƒtƒ@‚Ì“à—e‚ğ‰æ–Ê‚É•\¦
+	// ãƒãƒƒãƒ•ã‚¡ã®å†…å®¹ã‚’ç”»é¢ã«è¡¨ç¤º
 	argSwapBuffers();
 
 	if (start_time == 1) {
@@ -172,7 +173,7 @@ void MainLoop(void)
 		}
 	}
 	if (stop_time == 1 && run_time==1) {
-		printf("%.0f•b‚Å‚·B\n", (double)(end - start));
+		printf("%.0fç§’ã§ã™ã€‚\n", (double)(end - start));
 		stop_time = 0;
 		run_time = 0;
 		set = 10.0;
@@ -182,22 +183,22 @@ void MainLoop(void)
 
 
 //===========================================================================
-// 3DƒIƒuƒWƒFƒNƒg‚Ì•`‰æ‚ğs‚¤ŠÖ”
+// 3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æç”»ã‚’è¡Œã†é–¢æ•°
 //===========================================================================
 void DrawObject(void)
 {
 	double	gl_para[16];
 
-	// 3DƒIƒuƒWƒFƒNƒg‚ğ•`‰æ‚·‚é‚½‚ß‚Ì€”õ
+	// 3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æç”»ã™ã‚‹ãŸã‚ã®æº–å‚™
 	argDrawMode3D();
 	argDraw3dCamera(0, 0);
 
-	// À•W•ÏŠ·s—ñ‚Ì“K—p
+	// åº§æ¨™å¤‰æ›è¡Œåˆ—ã®é©ç”¨
 	argConvGlpara(patt_trans, gl_para);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadMatrixd(gl_para);
 
-	// 3DƒIƒuƒWƒFƒNƒg‚Ì•`‰æ
+	// 3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æç”»
 	glTranslatef(x_trans, y_trans, 20.0);
 	glColor3f(0.0, 1.0, 0.0);
 	glLineWidth(3.0);
@@ -206,21 +207,21 @@ void DrawObject(void)
 
 
 //===========================================================================
-// ƒ}ƒEƒX“ü—Íˆ—ŠÖ”
+// ãƒã‚¦ã‚¹å…¥åŠ›å‡¦ç†é–¢æ•°
 //===========================================================================
 void MouseEvent(int button, int state, int x, int y)
 {
-	// “ü—Íó‘Ô‚ğ•\¦
-	printf("ƒ{ƒ^ƒ“:%d ó‘Ô:%d À•W:(x,y)=(%d,%d) \n", button, state, x, y);
+	// å…¥åŠ›çŠ¶æ…‹ã‚’è¡¨ç¤º
+	printf("ãƒœã‚¿ãƒ³:%d çŠ¶æ…‹:%d åº§æ¨™:(x,y)=(%d,%d) \n", button, state, x, y);
 }
 
 
 //===========================================================================
-// ƒL[ƒ{[ƒh“ü—Íˆ—ŠÖ”
+// ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰å…¥åŠ›å‡¦ç†é–¢æ•°
 //===========================================================================
 void KeyEvent(unsigned char key, int x, int y)
 {
-	// ESCƒL[‚ğ“ü—Í‚µ‚½‚çƒAƒvƒŠƒP[ƒVƒ‡ƒ“I—¹
+	// ESCã‚­ãƒ¼ã‚’å…¥åŠ›ã—ãŸã‚‰ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³çµ‚äº†
 	if (key == 0x1b) {
 		Cleanup();
 		exit(0);
@@ -254,11 +255,11 @@ void KeyEvent(unsigned char key, int x, int y)
 
 
 //===========================================================================
-// I—¹ˆ—ŠÖ”
+// çµ‚äº†å‡¦ç†é–¢æ•°
 //===========================================================================
 void Cleanup(void)
 {
-	arVideoCapStop();	// ƒrƒfƒIƒLƒƒƒvƒ`ƒƒ‚Ì’â~
-	arVideoClose();		// ƒrƒfƒIƒfƒoƒCƒX‚ÌI—¹
-	argCleanup();		// ƒOƒ‰ƒtƒBƒbƒNˆ—‚ÌI—¹
+	arVideoCapStop();	// ãƒ“ãƒ‡ã‚ªã‚­ãƒ£ãƒ—ãƒãƒ£ã®åœæ­¢
+	arVideoClose();		// ãƒ“ãƒ‡ã‚ªãƒ‡ãƒã‚¤ã‚¹ã®çµ‚äº†
+	argCleanup();		// ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯å‡¦ç†ã®çµ‚äº†
 }
